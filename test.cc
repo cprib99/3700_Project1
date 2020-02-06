@@ -22,6 +22,7 @@ void separateString(string equ, vector<int> &digits)
 
 }
 
+//test1
 //main function to read strings from file and place in usable vector
 int main()
 {
