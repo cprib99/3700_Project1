@@ -2,7 +2,6 @@
 //Created 4 Feb 2020
 
 #include "point.h"
-#include "fraction.cc"
 #include "fraction.h"
 
 
