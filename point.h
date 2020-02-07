@@ -10,10 +10,10 @@
 #define _POINT_H
 
 class Point
-{
+
 	public:
 		//initializes x/y to 1/1 if no value
-    Point(int32_t x=1, int32_t y=1);
+    Point(Fraction& x, Fraction y);
 		~Point(void);
 
 		//rhs == right hand side of operator
@@ -25,22 +25,14 @@ class Point
 		bool operator==(Point rhs);
 		bool operator!=(Point rhs);
 
-		// getter for x var
-		int32_t getx()
-		{
-			return xPt;
-		}
+		Fraction& getX() { return x; }
+		Fraction& getY() { return Y; }
 
-		// getter for y var
-		int32_t gety()2
-		{
-			return yPt;
-		}
 
 	private:
-		int32_t
-			xPt,
-			yPt;
+	Fraction
+			x,
+			y;
 };
 
 	std::istream &operator>>(std::istream &,Point &);
