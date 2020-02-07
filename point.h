@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <iostream>
 #include <numeric>
+#include "fraction.h"
 
 #ifndef _POINT_H
 #define _POINT_H
@@ -12,35 +13,27 @@
 class Point
 {
 	public:
-		//initializes x/y to 1/1 if no value
-    Point(int32_t x=1, int32_t y=1);
-		~Point(void);
+		//initializes x/y to 0,0 if no value
+    Point(Fraction x = Fraction(0), Fraction y = Fraction(0));
+		~Point(void) {}
 
 		//rhs == right hand side of operator
 		Point operator+(Point rhs);
 		Point operator-(Point rhs);
-		Point operator*(Point rhs);
-		Point operator=(Point rhs);
+		Fraction operator*(Point rhs);
+		Point operator*(Fraction rhs);
 
 		bool operator==(Point rhs);
 		bool operator!=(Point rhs);
 
-		// getter for x var
-		int32_t getx()
-		{
-			return xPt;
-		}
+		Fraction& getX() { return x; }
+		Fraction& getY() { return y; }
 
-		// getter for y var
-		int32_t gety()2
-		{
-			return yPt;
-		}
 
 	private:
-		int32_t
-			xPt,
-			yPt;
+	Fraction
+			x,
+			y;
 };
 
 	std::istream &operator>>(std::istream &,Point &);
