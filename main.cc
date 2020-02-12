@@ -6,70 +6,64 @@
 #include "point.h"
 using namespace std;
 
-//global variable numPoints - used in fcn definitions to know how many points to iterate for
-int numPoints;
-//global var fraction1 for converting values to fractions
-Fraction fraction1 = (1,1);
-Fraction fraction0 = (0,0);
-
 //Algorithm 1 - find point outside of polygon Q
-Point findOustidePoint(Point Q[], Point p1)
+Point findOustidePoint(Point *Q, Point p1, int pointNums)
 {
   //get yMax point
   Fraction yTemp;
 
-  for(int i=0; i<numPoints; i++)
+  for(int i=0; i<pointNums; i++)
   {
-    if(Q[i].getY().operator>=(yTemp))
+    if(Q[i].getY()>=(yTemp))
     {
       yTemp = Q[i].getY();
     }
   }
 
+  //create point p2
   Fraction x;
-  yTemp.operator=(yTemp.operator+(fraction1));
-
-  cout << yTemp << endl;
-
+  yTemp = yTemp + 1;
   Point p2(x,yTemp);
-  bool good = false;
 
   //loop for finding yMax
+  bool good = false;
   while(good = false)
   {
-    x = x + fraction1;
+    x = x + 1;
     good = true;
-    for (int i=0; i<(numPoints-1); i++)
+    for (int i=0; i<(pointNums-1); i++)
     {
-      if(((Q[i].operator-(p1)).operator*(p2.operator-(p1)) == 0))
+      if((Q[i]-p1)*(p2-p1) == 0)
       {
         good = false;
+        cout << "got here 1" << endl;
       }
     }
   }
   return(x,yTemp);
 }
 
+//Algorithm 2 - determine if two line segments intersect
 bool intersect(Point p1, Point p2, Point q1, Point q2)
 {
   Point r, s, v;
   Fraction d, t, u, vs, vr;
-  r = p2.operator-(p1);
-  s = q2.operator-(q1);
-  v = q1.operator-(p1);
-  d = r.operator*(s);
+  r = p2 - p1;
+  s = q2 - q1;
+  v = q1 - p1;
+  d = r * s;
 
-  if(d.operator==(fraction0))
+  if(d == 0)
   {
     return false;
   }
   else
   {
-    vs.operator=(v.operator*(s));
-    vr.operator=(v.operator*(r));
-    t.operator=(vs.operator/(d));
-    u.operator=(vr.operator/(d));
-    if(((t.operator>=(fraction0) && t.operator<=(fraction1)) && ((u.operator>=(fraction0) && (u.operator>=(fraction1))))
+    vs = v * s;
+    vr = v * r;
+    t = vs / d;
+    u = vr / d;
+    if((t>=0) && (t<=1) && (u>=0) && (u<=1))
     {
       return true;
     }
@@ -98,14 +92,30 @@ int main()
     }
     testPoint = pointData[numPoints];
 
-//test section below
-    //cout << testPoint << endl;;
-
+    //find known point outside of polygon
     Point outsidePoint;
-    outsidePoint = findOustidePoint(pointData, testPoint);
-    cout << outsidePoint << endl;
+    outsidePoint = findOustidePoint(pointData, testPoint, numPoints);
 
+    //determine number of collisions of line segments
+    int numCollisions;
+    for(int i=1; i<numPoints; i++)
+    {
+      if(intersect(testPoint, outsidePoint, pointData[i-1],pointData[i]))
+      {
+        numCollisions++;
+      }
+    }
 
+    //finally - check if point is inside of polygon!
+    //use definition of even/odd number here
+    if(numCollisions % 2 == 0)
+    {
+      cout << "Point is outside the polygon" << endl;
+    }
+    else
+    {
+      cout << "Point is inside the polygon" << endl;
+    }
 
     return 0;
 }
