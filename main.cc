@@ -26,8 +26,8 @@ Point findOustidePoint(Point *Q, Point p1, int pointNums)
   Point p2(x,yTemp);
 
   //loop for finding yMax
-  bool good = false;
-  while(good = false)
+  bool good;
+  do
   {
     x = x + 1;
     good = true;
@@ -36,10 +36,9 @@ Point findOustidePoint(Point *Q, Point p1, int pointNums)
       if((Q[i]-p1)*(p2-p1) == 0)
       {
         good = false;
-        cout << "got here 1" << endl;
       }
     }
-  }
+  } while(good = false);
   return(x,yTemp);
 }
 
