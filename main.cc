@@ -11,17 +11,18 @@ Point findOustidePoint(Point *Q, Point p1, int pointNums)
 {
   //get yMax point
   Fraction yTemp;
+  Fraction x;
 
   for(int i=0; i<pointNums; i++)
   {
     if(Q[i].getY()>=(yTemp))
     {
       yTemp = Q[i].getY();
+      Point p2(x,yTemp);
     }
   }
 
-  //create point p2
-  Fraction x;
+  //create point p2 (known outside pt)
   yTemp = yTemp + 1;
   Point p2(x,yTemp);
 
